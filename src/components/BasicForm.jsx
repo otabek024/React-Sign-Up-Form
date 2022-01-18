@@ -2,13 +2,13 @@ import React from "react";
 import UseInput from "../hooks/UseInput";
 import "../App.css";
 
-const isNotEmpty = (value) => /^[A-Za-z,.'-]+$/.test(value);
+const isNotEmpty = (value) => /^[a-zA-Z\\s]+/.test(value.trim());
 const isEmail = (value) => /\S+@\S+\.\S+/.test(value);
 const isPassword = (value) =>
   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(value);
 
-const passwordsMatch = (password, confirmPassword) => password === confirmPassword;
-
+const passwordsMatch = (password, confirmPassword) =>
+  password === confirmPassword;
 
 const BasicForm = (props) => {
   const {
@@ -60,11 +60,12 @@ const BasicForm = (props) => {
   // ) {
   //   formIsValid = true;
   // }
-  const formIsValid = userNameIsValid &&
-  emailIsValid &&
-  passwordIsValid &&
-  confirmPasswordIsValid &&
-  passwordsMatch; // 
+  const formIsValid =
+    userNameIsValid &&
+    emailIsValid &&
+    passwordIsValid &&
+    confirmPasswordIsValid &&
+    passwordsMatch; //
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -86,17 +87,16 @@ const BasicForm = (props) => {
     ? "form-control invalid"
     : "form-control";
 
-  const emailClasses = emailHasError 
-    ? "form-control invalid" 
-    : "form-control";
+  const emailClasses = emailHasError ? "form-control invalid" : "form-control";
 
   const passwordClasses = passwordHasError
     ? "form-control invalid"
     : "form-control";
 
-  const confirmPasswordClasses = confirmPasswordHasError || !passwordsMatch
-  ? "form-control invalid"
-  : "form-control";  
+  const confirmPasswordClasses =
+    confirmPasswordHasError || !passwordsMatch
+      ? "form-control invalid"
+      : "form-control";
 
   return (
     <form onSubmit={submitHandler}>
@@ -112,7 +112,7 @@ const BasicForm = (props) => {
             onBlur={userNameBlurHandler}
           />
           {userNameHasError && (
-            <p className="error-text">Looks like invalid first name</p>
+            <p className="error-text">"Username should be 3-16 characters and shouldn't include any special character!",</p>
           )}
         </div>
         <div className={emailClasses}>
@@ -125,7 +125,7 @@ const BasicForm = (props) => {
             onBlur={emailBlurHandler}
           />
           {emailHasError && (
-            <p className="error-text">Looks like invalid email address</p>
+            <p className="error-text">It should be a valid email address!</p>
           )}
         </div>
         <div className={passwordClasses}>
@@ -138,7 +138,7 @@ const BasicForm = (props) => {
             onBlur={passwordBlurHandler}
           />
           {passwordHasError && (
-            <p className="error-text">Looks like invalid password</p>
+            <p className="error-text">Looks like invalid password. </p>
           )}
         </div>
         <div className={confirmPasswordClasses}>
@@ -150,9 +150,10 @@ const BasicForm = (props) => {
             onChange={confirmPasswordChangeHandler}
             onBlur={confirmPasswordBlurHandler}
           />
-          {confirmPasswordHasError && (
-            <p className="error-text">Passwords do not match</p>
-          )}
+          {confirmPasswordHasError ||
+            (!passwordsMatch && (
+              <p className="error-text">Confirm Password is required and it should be same as password value </p>
+            ))}
         </div>
       </div>
       <div className="form-actions">
