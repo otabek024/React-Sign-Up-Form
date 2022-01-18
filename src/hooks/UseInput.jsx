@@ -5,7 +5,7 @@ const UseInput = (validateValue) => {
   const [isTouched, setIsTouched] = useState(false);
 
   const valueIsValid = validateValue(enteredValue);
-  const hasError = !valueIsValid && isTouched;
+  const hasError = isTouched && !valueIsValid;
 
   const valueChangeHandler = (event) => {
     setEnteredValue(event.target.value);
@@ -16,9 +16,9 @@ const UseInput = (validateValue) => {
   };
 
   const reset = () => {
-    setEnteredValue('');
+    setEnteredValue("");
     setIsTouched(false);
-  } 
+  };
 
   return {
     value: enteredValue,
@@ -26,7 +26,7 @@ const UseInput = (validateValue) => {
     hasError,
     valueChangeHandler,
     inputBlueHandler,
-    reset
+    reset,
   };
 };
 

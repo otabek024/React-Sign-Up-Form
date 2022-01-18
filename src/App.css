@@ -92,3 +92,9 @@ button.disabled:active{
   border-color: lightgray;
   cursor: not-allowed;
 }
+
+@media screen and (max-width: 400px) {
+  .container{
+    padding: 20px;
+  }
+}

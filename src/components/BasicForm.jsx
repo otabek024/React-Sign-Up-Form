@@ -2,16 +2,13 @@ import React from "react";
 import UseInput from "../hooks/UseInput";
 import "../App.css";
 
-const isNotEmpty = (value) => /^[A-Za-z ,.'-]+$/.test(value);
+const isNotEmpty = (value) => /^[A-Za-z,.'-]+$/.test(value);
 const isEmail = (value) => /\S+@\S+\.\S+/.test(value);
 const isPassword = (value) =>
   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(value);
 
-const isConfirmPassword = (value) => {
-  if (value.passwordValue == value.confirmPasswordValue) {
-    console.log("error");
-  }
-};
+const passwordsMatch = (password, confirmPassword) => password === confirmPassword;
+
 
 const BasicForm = (props) => {
   const {
@@ -48,18 +45,26 @@ const BasicForm = (props) => {
     valueChangeHandler: confirmPasswordChangeHandler,
     inputBlueHandler: confirmPasswordBlurHandler,
     reset: resetConfirmPassword,
-  } = UseInput(isConfirmPassword);
+  } = UseInput(isPassword);
 
-  let formIsValid = false;
+  const passwordsMatch = passwordValue === confirmPasswordValue;
 
-  if (
-    userNameIsValid &&
-    emailIsValid &&
-    passwordIsValid &&
-    confirmPasswordIsValid
-  ) {
-    formIsValid = true;
-  }
+  // let formIsValid = false;
+
+  // if (
+  //   userNameIsValid &&
+  //   userLastNameIsValid &&
+  //   emailIsValid &&
+  //   passwordIsValid &&
+  //   confirmPasswordIsValid
+  // ) {
+  //   formIsValid = true;
+  // }
+  const formIsValid = userNameIsValid &&
+  emailIsValid &&
+  passwordIsValid &&
+  confirmPasswordIsValid &&
+  passwordsMatch; // 
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -81,15 +86,17 @@ const BasicForm = (props) => {
     ? "form-control invalid"
     : "form-control";
 
-  const emailClasses = emailHasError ? "form-control invalid" : "form-control";
+  const emailClasses = emailHasError 
+    ? "form-control invalid" 
+    : "form-control";
 
   const passwordClasses = passwordHasError
     ? "form-control invalid"
     : "form-control";
 
-  const confirmPasswordClasses = confirmPasswordHasError
-    ? "form-control invalid"
-    : "form-control";
+  const confirmPasswordClasses = confirmPasswordHasError || !passwordsMatch
+  ? "form-control invalid"
+  : "form-control";  
 
   return (
     <form onSubmit={submitHandler}>
@@ -105,7 +112,7 @@ const BasicForm = (props) => {
             onBlur={userNameBlurHandler}
           />
           {userNameHasError && (
-            <p className="error-text">Looks like invalid username</p>
+            <p className="error-text">Looks like invalid first name</p>
           )}
         </div>
         <div className={emailClasses}>
@@ -135,16 +142,16 @@ const BasicForm = (props) => {
           )}
         </div>
         <div className={confirmPasswordClasses}>
-          <label htmlFor="password2">Confirm Password</label>
+          <label htmlFor="password">Confirm Password</label>
           <input
             type="password"
-            id="password2"
+            id="password"
             value={confirmPasswordValue}
             onChange={confirmPasswordChangeHandler}
             onBlur={confirmPasswordBlurHandler}
           />
           {confirmPasswordHasError && (
-            <p className="error-text">Passwords do not match!</p>
+            <p className="error-text">Passwords do not match</p>
           )}
         </div>
       </div>
