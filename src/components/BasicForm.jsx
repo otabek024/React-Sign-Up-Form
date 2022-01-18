@@ -112,7 +112,7 @@ const BasicForm = (props) => {
             onBlur={userNameBlurHandler}
           />
           {userNameHasError && (
-            <p className="error-text">"Username should be 3-16 characters and shouldn't include any special character!",</p>
+            <p className="error-text">Username shouldn't include any special character!</p>
           )}
         </div>
         <div className={emailClasses}>
@@ -125,7 +125,7 @@ const BasicForm = (props) => {
             onBlur={emailBlurHandler}
           />
           {emailHasError && (
-            <p className="error-text">It should be a valid email address!</p>
+            <p className="error-text">Email should contain a @ symbol</p>
           )}
         </div>
         <div className={passwordClasses}>
@@ -138,7 +138,7 @@ const BasicForm = (props) => {
             onBlur={passwordBlurHandler}
           />
           {passwordHasError && (
-            <p className="error-text">Looks like invalid password. </p>
+            <p className="error-text">Password should contain letters, numbers and symbols  </p>
           )}
         </div>
         <div className={confirmPasswordClasses}>
@@ -152,7 +152,7 @@ const BasicForm = (props) => {
           />
           {confirmPasswordHasError ||
             (!passwordsMatch && (
-              <p className="error-text">Confirm Password is required and it should be same as password value </p>
+              <p className="error-text">Confirm Password is required. Check your password again</p>
             ))}
         </div>
       </div>
